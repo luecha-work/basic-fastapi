@@ -19,3 +19,10 @@ BOOK = [
 @app.get("/books")
 async def read_books():
     return BOOK
+
+@app.get("/books/{bool_title}")
+async def read_books(bool_title: str):
+    for book in BOOK:
+        if book.get('title').casefold() == bool_title.casefold():
+            return book
+    

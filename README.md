@@ -30,7 +30,7 @@ fastapi-project
 
 3. Run the FastAPI application:
    ```
-   make run
+   make serve
    ```
 
 ## Usage
