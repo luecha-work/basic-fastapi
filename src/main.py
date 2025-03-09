@@ -1,47 +1,21 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Body
+from pydantic import BaseModel
+
+
+class Profile(BaseModel):
+    name: str
+    email: str
+    age: int
+
 
 app = FastAPI()
 
-BOOK = [
-    {'title': 'Title 1', 'author': 'Author 1', 'category': 'Category 1'},
-    {'title': 'Title 2', 'author': 'Author 2', 'category': 'Category 2'},
-    {'title': 'Title 3', 'author': 'Author 3', 'category': 'Category 3'},
-    {'title': 'Title 4', 'author': 'Author 4', 'category': 'Category 4'},
-    {'title': 'Title 5', 'author': 'Author 5', 'category': 'Category 5'},
-    {'title': 'Title 6', 'author': 'Author 6', 'category': 'Category 6'},
-    {'title': 'Title 7', 'author': 'Author 7', 'category': 'Category 7'},
-    {'title': 'Title 8', 'author': 'Author 8', 'category': 'Category 8'},
-    {'title': 'Title 9', 'author': 'Author 9', 'category': 'Category 9'},
-    {'title': 'Title 10', 'author': 'Author 10', 'category': 'Category 10'}
-]
+
+@app.get("/user/admin")
+async def get_admin():
+    return {"This is admin page"}
 
 
-@app.get("/books")
-async def read_books():
-    return BOOK
-
-
-@app.get("/books/{bool_title}")
-async def read_books(bool_title: str):
-    for book in BOOK:
-        if book.get('title').casefold() == bool_title.casefold():
-            return book
-
-
-@app.get("/books/")
-async def read_category_by_query(category: str):
-    books_to_return = []
-    for book in BOOK:
-        if book.get('category').casefold() == category.casefold():
-            books_to_return.append(book)
-    return books_to_return
-
-
-@app.get("/books/{book_author}/")
-async def read_author_category_by_query(book_author: str, category: str):
-    books_to_return = []
-    for book in BOOK:
-        if book.get('author').casefold() == book_author.casefold() \
-            and book.get('category').casefold() == category.casefold():
-            books_to_return.append(book)
-    return books_to_return
+@app.post("/user/create")
+async def create_user(profile: Profile):
+    return profile
