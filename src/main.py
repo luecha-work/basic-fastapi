@@ -13,6 +13,10 @@ class Product(BaseModel):
     price: int
     discount: int
     discounted_price: float
+    
+class User(BaseModel):
+    name: str
+    email: str
 
 
 app = FastAPI()
@@ -22,11 +26,15 @@ app = FastAPI()
 async def get_admin():
     return {"This is admin page"}
 
+@app.post("/purchase")
+async def purchase(user: User, product: Product):
+    return {"user": user, "product": product}
 
-@app.post("/product/create")
+@app.post("/product/create/{product_id}")
 async def create_product(product: Product, product_id: int, category: str):
-    product.discounted_price = product.price - (product.price * product.discount) / 100
-    return {'product_id': product_id, 'product': product, 'category': category}
+    product.discounted_price = product.price - \
+        (product.price * product.discount) / 100
+    return {"product_id": product_id, "product": product, "category": category}
 
 
 @app.post("/user/create")
