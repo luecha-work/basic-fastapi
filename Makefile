@@ -1,9 +1,7 @@
-.PHONY: install serve test lint clean
-
 install:
 	pip install -r requirements.txt
 
-serve:
+server:
 	uvicorn src.main:app --reload
 
 # uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
@@ -26,3 +24,5 @@ clean:
 	find . -type f -name "*.pyc" -delete
 	find . -type f -name "*.pyo" -delete
 	find . -type f -name "*.pyd" -delete
+
+.PHONY: install server test lint clean
