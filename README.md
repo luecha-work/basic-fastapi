@@ -8,7 +8,6 @@ This is a FastAPI project that provides an API for retrieving a list of books.
 fastapi-project
 ├── src
 │   ├── app.py          # Main entry point of the FastAPI application
-│   ├── books.py        # Contains the route for retrieving books
 │   └── requirements.txt # Lists project dependencies
 ├── Makefile            # Automation commands for the project
 ├── .env                # Environment variables for configuration
