@@ -1,7 +1,17 @@
+from datetime import date, datetime, time, timedelta
 from fastapi import FastAPI
 from pydantic import BaseModel, Field, HttpUrl
 from typing import Set, List
+from uuid import UUID
 
+
+class Event(BaseModel):
+    event_id: UUID
+    start_date: date
+    start_time: datetime
+    end_time: datetime
+    repeat_time: time
+    execute_after: timedelta
 
 class Profile(BaseModel):
     name: str
@@ -59,6 +69,9 @@ class User(BaseModel):
 
 app = FastAPI()
 
+@app.post("/add-event")
+def add_event(event: Event):
+    return event
 
 @app.get("/user/admin")
 async def get_admin():
