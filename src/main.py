@@ -15,12 +15,12 @@ class Image(BaseModel):
 
 
 class Product(BaseModel):
-    name: str
+    name: str = Field(example="Phone")
     price: int = Field(title="Price of the product",
                        description="This is the price of add product")
     discount: int
     discounted_price: float
-    tags: Set[str] = []
+    tags: Set[str] = Field(example=["electronics", "phone"])
     image: List[Image] = []
     
     class Config:
@@ -30,7 +30,7 @@ class Product(BaseModel):
                 "price": 1000,
                 "discount": 10,
                 "discounted_price": 0,
-                "tags": ["electronics", "mobile"],
+                "tags": ["electronics", "phone"],
                 "image": [
                     {
                         "url": "http://www.google.com",
