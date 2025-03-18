@@ -1,5 +1,5 @@
 from datetime import date, datetime, time, timedelta
-from fastapi import FastAPI
+from fastapi import FastAPI, Form
 from pydantic import BaseModel, Field, HttpUrl
 from typing import Set, List
 from uuid import UUID
@@ -12,6 +12,7 @@ class Event(BaseModel):
     end_time: datetime
     repeat_time: time
     execute_after: timedelta
+
 
 class Profile(BaseModel):
     name: str
@@ -32,7 +33,7 @@ class Product(BaseModel):
     discounted_price: float
     tags: Set[str] = Field(example=["electronics", "phone"])
     image: List[Image] = []
-    
+
     class Config:
         json_schema_extra = {
             "example": {
@@ -69,9 +70,16 @@ class User(BaseModel):
 
 app = FastAPI()
 
+
+@app.post("/login")
+async def login(username: str = Form(...), password: str = Form(...)):
+    return {"username": username}
+
+
 @app.post("/add-event")
 def add_event(event: Event):
     return event
+
 
 @app.get("/user/admin")
 async def get_admin():
@@ -81,6 +89,7 @@ async def get_admin():
 @app.post("/purchase")
 async def purchase(user: User, product: Product):
     return {"user": user, "product": product}
+
 
 @app.post("/add-offer")
 async def add_offer(offer: Offer):
