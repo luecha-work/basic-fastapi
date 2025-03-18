@@ -1,12 +1,17 @@
-from fastapi import FastAPI, Body
-from pydantic import BaseModel, Field
-from typing import Set
+from fastapi import FastAPI
+from pydantic import BaseModel, Field, HttpUrl
+from typing import Set, List
 
 
 class Profile(BaseModel):
     name: str
     email: str
     age: int
+
+
+class Image(BaseModel):
+    url: HttpUrl
+    name: str
 
 
 class Product(BaseModel):
@@ -16,6 +21,35 @@ class Product(BaseModel):
     discount: int
     discounted_price: float
     tags: Set[str] = []
+    image: List[Image] = []
+    
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "name": "Phone",
+                "price": 1000,
+                "discount": 10,
+                "discounted_price": 0,
+                "tags": ["electronics", "mobile"],
+                "image": [
+                    {
+                        "url": "http://www.google.com",
+                        "name": "phone image"
+                    },
+                    {
+                        "url": "http://www.google.com",
+                        "name": "phone image side view"
+                    }
+                ]
+            }
+        }
+
+
+class Offer(BaseModel):
+    name: str
+    description: str
+    price: float
+    products: List[Product]
 
 
 class User(BaseModel):
@@ -34,6 +68,10 @@ async def get_admin():
 @app.post("/purchase")
 async def purchase(user: User, product: Product):
     return {"user": user, "product": product}
+
+@app.post("/add-offer")
+async def add_offer(offer: Offer):
+    return {offer: offer}
 
 
 @app.post("/product/create/{product_id}")

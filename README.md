@@ -25,7 +25,7 @@ fastapi-project
 
 2. Install the required dependencies:
    ```
-   pip install -r src/requirements.txt
+   pip install -r requirements.txt
    ```
 
 3. Run the FastAPI application:

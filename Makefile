@@ -1,3 +1,5 @@
+.PHONY: install server test lint clean
+
 install:
 	pip install -r requirements.txt
 
@@ -24,5 +26,3 @@ clean:
 	find . -type f -name "*.pyc" -delete
 	find . -type f -name "*.pyo" -delete
 	find . -type f -name "*.pyd" -delete
-
-.PHONY: install server test lint clean
